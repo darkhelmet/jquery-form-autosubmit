@@ -1,6 +1,9 @@
 (function($) {
-  $.fn.autosubmit = function(waitTime) {
-    $(this).each(function() {
+  $.fn.autosubmit = function(settings) {
+    settings = $.extend({
+      waitTime: 2000
+    }, settings);
+    return $(this).each(function() {
       var t = null;
       $(this).submit(function() {
         $.ajax({
@@ -12,10 +15,10 @@
         return false;
       }).change(function() {
         if (null != t) { clearTimeout(t); }
-        form = this;
+        var form = this;
         t = setTimeout(function() {
           $(form).submit();
-        }, waitTime);
+        }, settings.waitTime);
       });
     });
   };
